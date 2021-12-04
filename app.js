@@ -4,6 +4,8 @@ const authRoutes = require("./routes/authRoutes");
 const cookieParser = require("cookie-parser");
 const { requireAuth } = require("./middleware/authMiddleware");
 
+var port = process.env.PORT || 3000;
+
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 // middleware
@@ -23,7 +25,7 @@ mongoose
     useUnifiedTopology: true,
     useCreateIndex: true,
   })
-  .then((result) => app.listen(3000))
+  .then((result) => app.listen(port))
   .catch((err) => console.log(err));
 
 // routes
