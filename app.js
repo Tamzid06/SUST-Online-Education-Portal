@@ -2,9 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const authRoutes = require("./routes/authRoutes");
 const cookieParser = require("cookie-parser");
-const { requireAuth } = require("./middleware/authMiddleware");
-
-var port = process.env.PORT || 3000;
+const { requireAuth,checkUser} = require("./middleware/authMiddleware");
 
 const app = express();
 app.use(express.urlencoded({ extended: true }));
@@ -25,14 +23,15 @@ mongoose
     useUnifiedTopology: true,
     useCreateIndex: true,
   })
-  .then((result) => app.listen(port))
+  .then((result) => app.listen(3000))
   .catch((err) => console.log(err));
 
 // routes
 app.get("/", (req, res) => res.render("index"));
 app.get("/courses", requireAuth, (req, res) => res.render("courses"));
 app.get("/home", requireAuth, (req, res) => res.render("home"));
-app.get("/playlist", requireAuth, (req, res) => res.render("playlist"));
+app.get("/profile",requireAuth,checkUser, (req, res) => res.render("profile"));
+// app.get("/playlist", requireAuth, (req, res) => res.render("playlist"));
 // app.get("/index", requireAuth, (req, res) => res.render("index"));
 // app.get("/signup", requireAuth, (req, res) => res.render("signup"));
 // app.get('/home', (req, res) => res.render('main_home'));

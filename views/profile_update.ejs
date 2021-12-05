@@ -46,10 +46,11 @@
                 <div class="col-lg-6 col-md-6">
                     <nav class="main-menu">
                         <ul>
-                            <li><a href="index">Home</a></li>
+                            <li><a href="home">Home</a></li>
                             <li><a href="">About us</a></li>
-                            <li><a href="">Contact</a></li>
-                            <li><a href="index">Login</a></li>
+                            <li><a href="courses">Courses</a></li>
+                            <li><a href="/profile">Profile</a></li>
+                            <li><a href="/logout">Logout</a></li>
                         </ul>
                     </nav>
                 </div>
@@ -69,23 +70,17 @@
                     <div class="col-lg-8">
                         <div class="contact-form-warp">
                             <div class="section-title text-white text-left">
-                                <h2>Sign Up</h2>
+                                <h2>Update Info</h2>
                             </div>
                             <!-- signup form -->
-						<form action="/signup" method="POST" class="signup-form" >
+						<form action="/profileUpdate" method="POST" class="signup-form" >
                             <div>
-							<input type="text" name="reg_no" placeholder="Registration No.">
-							<p style="color:red;" class="reg_no error"></p>
 							<input type="text" name="name" placeholder="Name">
 							<p style="color:red;" class="name error"></p>
 							<input type="text" name="email" placeholder="E-mail Address">
 							<p style="color:red;" class="email error"></p>
-                            <input type="password" name="password" placeholder="Password">
-							<p style="color:red;" class="password error"></p>
-							<input type="password" name="password2" placeholder="Confirm Password">
-							<p style="color:red;" class="password2 error"></p>
 						</div>
-							<button class="site-btn">Sign Up</button>
+							<button class="site-btn">Update</button>
 						</form>
                         </div>
                     </div>
@@ -93,24 +88,11 @@
                         <div class="contact-info-area">
                             <div class="section-title text-left p-0">
                                 <h2>Contact Info</h2>
-                                <p>Donec malesuada lorem maximus mauris scelerisque, at rutrum nulla dictum. Ut ac ligula sapien. Suspendi sse cursus faucibus finibus.</p>
+                                <p>For any Information or help, please contact with the Direct line.</p>
                             </div>
                             <div class="phone-number">
                                 <span>Direct Line</span>
-                                <h2>+53 345 7953 32453</h2>
-                            </div>
-                            <ul class="contact-list">
-                                <li>1481 Creekside Lane <br>Avila Beach, CA 931</li>
-                                <li>+53 345 7953 32453</li>
-                                <li>yourmail@gmail.com</li>
-                            </ul>
-                            <div class="social-links">
-                                <a href="#"><i class="fa fa-pinterest"></i></a>
-                                <a href="#"><i class="fa fa-facebook"></i></a>
-                                <a href="#"><i class="fa fa-twitter"></i></a>
-                                <a href="#"><i class="fa fa-dribbble"></i></a>
-                                <a href="#"><i class="fa fa-behance"></i></a>
-                                <a href="#"><i class="fa fa-linkedin"></i></a>
+                                <h2>+880 1541346821358</h2>
                             </div>
                         </div>
                     </div>
@@ -118,6 +100,8 @@
             </div>
         </section>
         <!-- Page end -->
+
+	<p style="margin-bottom: 1cm"></p>
 
 	<!-- footer section -->
 	<footer class="footer-section spad pb-0">
@@ -197,49 +181,50 @@
 </html>
 
 <script>
-	const form = document.querySelector("form");
-	const reg_noError = document.querySelector(".reg_no.error");
-	const emailError = document.querySelector(".email.error");
-	const passwordError = document.querySelector(".password.error");
-	const password2Error = document.querySelector(".password2.error");
-  
-	form.addEventListener("submit", async (e) => {
-	  e.preventDefault();
-  
-	  // reset errors
-	  reg_noError.textContent = "";
-	  emailError.textContent = "";
-	  passwordError.textContent = "";
-	  password2Error.textContent = "";
-  
-	  // get values
-	  const reg_no = form.reg_no.value;
-	  const name = form.name.value;
-	  const email = form.email.value;
-	  const password = form.password.value;
-	  const password2 = form.password2.value;
-  
-	  try {
-		const res = await fetch("/signup", {
-		  method: "POST",
-		  body: JSON.stringify({ reg_no, name, email, password, password2 }),
-		  headers: { "Content-Type": "application/json" },
-		});
-		const data = await res.json();
-		console.log(data);
-  
-		if (data.errors) {
-		  reg_noError.textContent = data.errors.reg_no;
-		  emailError.textContent = data.errors.email;
-		  passwordError.textContent = data.errors.password;
-		  password2Error.textContent = data.errors.password2;
-		}
-  
-		if (data.user) {
-		  location.assign("/home");
-		}
-	  } catch (err) {
-		console.log(err);
-	  }
-	});
-  </script>
+    const form = document.querySelector('form');
+    const emailError = document.querySelector('.email.error');
+
+    
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        // reset errors
+        emailError.textContent = '';
+       
+        
+
+        
+        // get values
+       
+        const name = form.name.value;
+        const email = form.email.value;
+
+        
+        
+
+        try {
+            const res = await fetch('/profileUpdate', {
+                method: 'POST',
+                body: JSON.stringify({ name, email }),
+                headers: { 'Content-Type': 'application/json' }
+            });
+            const data = await res.json();
+            console.log(data);
+   
+            
+            if (data.errors) {
+                emailError.textContent = data.errors.email;
+                
+            }else{
+               console.log("*********************************");
+               location.assign('/profile');
+            }
+
+        }
+        catch (err) {
+            console.log(err);
+        }
+
+    });
+</script>

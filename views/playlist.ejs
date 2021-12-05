@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <title>SUST Online Education Portal</title>
+
     <meta charset="UTF-8" />
     <meta name="description" content="WebUni Education Template" />
     <meta name="keywords" content="webuni, education, creative, html" />
@@ -26,6 +27,7 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
+
   <body>
     <!-- Page Preloder -->
     <div id="preloder">
@@ -50,7 +52,7 @@
                 <li><a href="home">Home</a></li>
                 <li><a href="#">About us</a></li>
                 <li><a href="courses">Courses</a></li>
-                <li><a href="">Contact</a></li>
+                <li><a href="/profile">Profile</a></li>
                 <li><a href="/logout">Logout</a></li>
               </ul>
             </nav>
@@ -90,7 +92,41 @@
         </div>
       </div>
     </section>
-    <!-- single course section end -->
+
+    <section class="blog-page spad pb-0">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-9">
+            <!-- blog post -->
+            <div class>
+              <h2>ALL COMMENTS</h2>
+              <p style="margin-bottom: 1cm"></p>
+              <% if (blogs.length> 0) { %> <% blogs.forEach(blog=> { %> <% var n
+              = blog.name; %>
+              <div>
+                <h5><%= n %></h5>
+                <p><%= blog.snippet; %></p>
+
+                <a class="delete" data-doc="<%= blog._id %>"
+                  ><button class="btn btn-danger">delete</button></a
+                >
+                <p style="margin-bottom: 0.5cm"></p>
+              </div>
+              <% }) %> <% } else { %>
+              <p>There are no comments to display...</p>
+              <% } %>
+            </div>
+            <div class="create-blog content">
+              <form action="/comments" method="POST">
+                <label for="snippet">Comments:</label>
+                <input type="text" id="snippet" name="snippet" required />
+                <button>Submit</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!-- Page -->
     <section class="realated-courses spad">
@@ -248,3 +284,24 @@
     <script src="js/main.js"></script>
   </body>
 </html>
+
+<script>
+  const trashcan = document.querySelectorAll("a.delete");
+  console.log(trashcan);
+
+  trashcan.forEach(function (element) {
+    element.addEventListener("click", (e) => {
+      console.log(
+        "!!!!!!!!!!!!!!!!!!!!!!   pressed   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+      );
+      const endpoint = `/comments/${element.dataset.doc}`;
+      console.log(element.dataset.doc);
+      fetch(endpoint, {
+        method: "DELETE",
+      })
+        .then((response) => response.json())
+        .then((data) => (window.location.href = data.redirect))
+        .catch((err) => console.log(err));
+    });
+  });
+</script>

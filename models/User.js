@@ -34,10 +34,14 @@ const userSchema = new mongoose.Schema({
 });
 
 userSchema.pre('save' , async function(next){
+    if(this.password !== this.password2){
+        throw Error("Passwords Do not Match");
+    }else{
     const salt = await bcrypt.genSalt();
     this.password = await bcrypt.hash(this.password,salt);
     this.password2 = await bcrypt.hash(this.password2,salt);
     next();
+    }
 });
 
 
